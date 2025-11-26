@@ -24,4 +24,14 @@ Función práctica para backup o envío de varios archivos.
 
 Reparto de trabajo 
 
+Óscar Cruz : Una mejora funcional (Deshacer última acción)
 
+Albaro Valverde : Una mejora funcional (Archivos modificados en los últimos 7 días)
+
+Antonio Romero : Una mejora tecnica (Interfaz)
+
+Manuel : Una mejora tecnica (Al final no asistió)
+
+Óscar Santiago : Una mejora de comprensión (Comentar codigo para aclararlo para los admin)
+
+Ismael : Una mejora de comprensión (Al final no asistió)
