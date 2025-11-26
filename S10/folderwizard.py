@@ -152,7 +152,7 @@ class FolderWizardApp:
                  font=("Tahoma", 12, "bold"), bg="#ECE9D8").pack(anchor="nw", pady=10)
         self.folder_label = tk.Label(text_frame, text="No hay carpeta seleccionada", bg="#ECE9D8")
         self.folder_label.pack(anchor="nw", pady=10)
-
+        # Botones
         btn_frame = tk.Frame(frame, bg="#D4D0C8", relief="raised", borderwidth=2)
         btn_frame.pack(side="bottom", fill="x")
         tk.Button(btn_frame, text="Volver", width=12, command=lambda: self.show_frame(self.frame_welcome), bg="#ECE9D8").pack(side="left", padx=10, pady=10)
