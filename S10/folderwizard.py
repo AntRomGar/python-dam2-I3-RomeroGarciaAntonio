@@ -122,7 +122,6 @@ class FolderWizardApp:
         btn_frame.pack(side="bottom", fill="x")
         tk.Button(btn_frame, text="Salir", width=12, command=self.root.quit, bg="#ECE9D8").pack(side="left", padx=10, pady=10)
         tk.Button(btn_frame, text="Siguiente", width=12, command=lambda: self.show_frame(self.frame_select), bg="#ECE9D8").pack(side="right", padx=10, pady=10)
-
     # ------------------ Paso 2: Selección de carpeta ------------------
     def create_select_frame(self):
         frame = self.frame_select
@@ -135,7 +134,8 @@ class FolderWizardApp:
         content_frame = tk.Frame(frame, bg="#ECE9D8")
         content_frame.pack(fill="both", expand=True, padx=10, pady=10)
 
-        image_frame = tk.Frame(content_frame, width=140, height=220, bg="#D4D0C8", relief="sunken", borderwidth=2)
+        image_frame = tk.Frame(content_frame, width=140, height=220,
+                               bg="#D4D0C8", relief="sunken", borderwidth=2)
         image_frame.pack(side="left", padx=10)
         image_frame.pack_propagate(False)
         try:
@@ -144,21 +144,34 @@ class FolderWizardApp:
             lbl_img.image = img
             lbl_img.pack(expand=True)
         except Exception:
-            tk.Label(image_frame, text="Logo", bg="#D4D0C8", font=("Tahoma", 12, "bold")).pack(expand=True)
+            tk.Label(image_frame, text="Logo", bg="#D4D0C8",
+                     font=("Tahoma", 12, "bold")).pack(expand=True)
 
         text_frame = tk.Frame(content_frame, bg="#ECE9D8")
         text_frame.pack(side="left", fill="both", expand=True, padx=10)
+
         tk.Label(text_frame, text="Selecciona la carpeta que deseas organizar",
                  font=("Tahoma", 12, "bold"), bg="#ECE9D8").pack(anchor="nw", pady=10)
-        self.folder_label = tk.Label(text_frame, text="No hay carpeta seleccionada", bg="#ECE9D8")
+
+        self.folder_label = tk.Entry(text_frame, width=50, state="disabled", justify="left")
         self.folder_label.pack(anchor="nw", pady=10)
-        # Botones
+
+        tk.Button(text_frame, text="Seleccionar Carpeta", width=18,
+                  command=self.select_folder, bg="#ECE9D8").pack(anchor="nw", pady=5)
+
         btn_frame = tk.Frame(frame, bg="#D4D0C8", relief="raised", borderwidth=2)
         btn_frame.pack(side="bottom", fill="x")
-        tk.Button(btn_frame, text="Volver", width=12, command=lambda: self.show_frame(self.frame_welcome), bg="#ECE9D8").pack(side="left", padx=10, pady=10)
-        tk.Button(btn_frame, text="Salir", width=12, command=self.root.quit, bg="#ECE9D8").pack(side="left", padx=10, pady=10)
-        tk.Button(btn_frame, text="Seleccionar Carpeta", width=18, command=self.select_folder, bg="#ECE9D8").pack(side="right", padx=10, pady=10)
-        tk.Button(btn_frame, text="Siguiente", width=12, command=lambda: self.show_frame(self.frame_actions), bg="#ECE9D8").pack(side="right", padx=10, pady=10)
+
+        tk.Button(btn_frame, text="Volver", width=12,
+                  command=lambda: self.show_frame(self.frame_welcome),
+                  bg="#ECE9D8").pack(side="left", padx=10, pady=10)
+        tk.Button(btn_frame, text="Salir", width=12,
+                  command=self.root.quit, bg="#ECE9D8").pack(side="left", padx=10, pady=10)
+        tk.Button(btn_frame, text="Siguiente", width=12,
+                  command=lambda: self.show_frame(self.frame_actions),
+                  bg="#ECE9D8").pack(side="right", padx=10, pady=10)
+
+
 
     # ------------------ Paso 3: Funciones ------------------
     def create_actions_frame(self):
@@ -187,8 +200,6 @@ class FolderWizardApp:
         text_frame.pack(side="left", fill="both", expand=True, padx=10)
         tk.Label(text_frame, text="Selecciona una acción a realizar",
                  font=("Tahoma", 12, "bold"), bg="#ECE9D8").pack(anchor="nw", pady=10)
-
-        # Botones de acción
         tk.Button(text_frame, text="Organizar Archivos", width=20, command=self.organize_files, bg="#ECE9D8").pack(pady=5)
         tk.Button(text_frame, text="Comprimir Archivo", width=20, command=self.comprimir_carpeta, bg="#ECE9D8").pack(pady=5)
         tk.Button(text_frame, text="Contar Archivos", width=20, command=self.count_files, bg="#ECE9D8").pack(pady=5)
@@ -202,9 +213,15 @@ class FolderWizardApp:
     # ------------------ MÉTODOS ------------------
     def select_folder(self):
         self.folder_path = filedialog.askdirectory()
-        if self.folder_path:
-            self.folder_label.config(text=self.folder_path)
-            messagebox.showinfo("Carpeta seleccionada", f"Has seleccionado: {self.folder_path}")
+
+        if not self.folder_path:
+            messagebox.showwarning("Advertencia", "No has seleccionado ninguna carpeta.")
+            return
+
+        self.folder_label.config(state="normal")
+        self.folder_label.delete(0, tk.END)
+        self.folder_label.insert(0, self.folder_path)
+        self.folder_label.config(state="disabled")
 
     def organize_files(self):
         if not self.folder_path:
