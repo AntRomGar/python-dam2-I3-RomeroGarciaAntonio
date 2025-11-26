@@ -1,0 +1,27 @@
+=====================
+Mejoras_Comprension
+=====================
+
+1. Deshacer última acción
+Permite revertir la última organización de archivos.
+Útil si se movieron archivos por error y quieres recuperarlos.
+
+2. Archivos modificados en los últimos 7 días
+Muestra una lista de archivos recientes dentro de la carpeta seleccionada.
+Ayuda a identificar cambios recientes y trabajar sobre ellos.
+
+3. Buscar archivos por extensión
+Permite al usuario introducir una extensión (ej. .pdf) y ver todos los archivos que coincidan.
+Facilita encontrar rápidamente tipos de archivos específicos.
+
+4. Abrir carpeta seleccionada
+Abre la carpeta en el explorador de archivos del sistema desde la aplicación.
+Mejora la navegación sin tener que salir de la app.
+
+5. Comprimir múltiples archivos seleccionados
+Permite seleccionar varios archivos y comprimirlos a la vez en un .zip o .gz.
+Función práctica para backup o envío de varios archivos.
+
+Reparto de trabajo 
+
+
