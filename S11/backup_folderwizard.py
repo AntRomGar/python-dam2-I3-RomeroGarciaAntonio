@@ -20,11 +20,9 @@ CATEGORIES = {
 
 
 # ------------------ Configuraciones Tkinter ------------------
-resolucion = "700x500"
-nombre_ventana = "FolderWizard"
+resolucion = "600x400"
+nombre_ventana = "FolderWizard - Asistente de Organización de Archivos"
 carpeta_por_defecto = None
-titulo_ventanas = "Asistente de Organización de Archivos"
-imagen_banner = "logo.png"
 
 
 
@@ -82,14 +80,14 @@ def organize_folder(folder_path):
             destino = mover_archivo(file, folder / 'Otros' / file.name)
             movimientos.append((str(destino), str(file)))
     ultima_accion = movimientos
-    return f"{organizacion_exitosa}"
+    return {organizacion_exitosa}
 
 """ Revierte la última acción realizada restaurando los archivos a su ubicación original. """
 def deshacer_accion():
     global ultima_accion
 
     if not ultima_accion:
-        return f"{ultima_accion_vacia}"
+        return {ultima_accion_vacia}
 
     # Mover cada archivo de regreso a su ubicación original
     for destino, origen in reversed(ultima_accion):
@@ -115,7 +113,7 @@ def deshacer_accion():
         ruta.rmdir()
     # Borrar registro de la última acción
     ultima_accion = []
-    return f"{msg_desacer_accion}"
+    return {msg_desacer_accion}
 
 # ------------------ CLASE PRINCIPAL ------------------
 
@@ -146,7 +144,7 @@ class FolderWizardApp:
     """ Genera la pantalla de bienvenida del asistente. """
     def crear_bienvenida_frame(self):
         frame = self.frame_welcome
-        self._crear_top_bar(frame, f"{titulo_ventanas}")
+        self._crear_top_bar(frame, "FolderWizard Setup")
         content_frame = tk.Frame(frame, bg="#ECE9D8")
         content_frame.pack(fill="both", expand=True, padx=10, pady=10)
         self._crear_panel_con_logo(content_frame)
@@ -160,7 +158,7 @@ class FolderWizardApp:
     """ Crea la pantalla de selección de carpeta dentro de la interfaz. """
     def create_select_frame(self):
         frame = self.frame_select
-        self._crear_top_bar(frame, f"{titulo_ventanas}")
+        self._crear_top_bar(frame, "FolderWizard Setup")
         content_frame = tk.Frame(frame, bg="#ECE9D8")
         content_frame.pack(fill="both", expand=True, padx=10, pady=10)
         self._crear_panel_con_logo(content_frame)
@@ -177,7 +175,7 @@ class FolderWizardApp:
     """ Construye la interfaz principal con acciones, estadísticas y navegación. """
     def create_actions_frame(self):
         frame = self.frame_actions
-        self._crear_top_bar(frame, f"{titulo_ventanas}")
+        self._crear_top_bar(frame, "FolderWizard Setup")
         content_frame = tk.Frame(frame, bg="#ECE9D8")
         content_frame.pack(fill="both", expand=True, padx=10, pady=10)
         self._crear_panel_con_logo(content_frame)
@@ -206,12 +204,6 @@ class FolderWizardApp:
         tk.Label(stats_frame, text="Carpetas:", bg="#D4D0C8", font=("Tahoma", 10, "bold")).pack()
         self.txt_carpetas = tk.Entry(stats_frame, width=15, state="disabled", justify="center")
         self.txt_carpetas.pack(pady=5)
-        tk.Label(stats_frame, text="Peso total:", bg="#D4D0C8", font=("Tahoma", 10, "bold")).pack()
-        self.txt_peso = tk.Entry(stats_frame, width=15, state="disabled", justify="center")
-        self.txt_peso.pack(pady=5)
-        tk.Label(stats_frame, text="Número de subcarpetas:", bg="#D4D0C8", font=("Tahoma", 10, "bold")).pack()
-        self.txt_niveles = tk.Entry(stats_frame, width=15, state="disabled", justify="center")
-        self.txt_niveles.pack(pady=5)
         tk.Button(stats_frame, text="⟳", width=4,
                   command=self.actualizar_estadisticas, bg="#ECE9D8", font=("Tahoma", 12, "bold")).pack(pady=15)
         self.root.after(100, self.actualizar_estadisticas)
@@ -229,11 +221,11 @@ class FolderWizardApp:
 
     """ Genera un panel lateral con el logo o un marcador en caso de no cargarlo. """
     def _crear_panel_con_logo(self, frame):
-        image_frame = tk.Frame(frame, width=140, height=380, bg="#D4D0C8", relief="sunken", borderwidth=2)
+        image_frame = tk.Frame(frame, width=140, height=220, bg="#D4D0C8", relief="sunken", borderwidth=2)
         image_frame.pack(side="left", padx=10)
         image_frame.pack_propagate(False)
         try:
-            img = tk.PhotoImage(file=f"{imagen_banner}")
+            img = tk.PhotoImage(file="logo.png")
             lbl_img = tk.Label(image_frame, image=img, bg="#D4D0C8")
             lbl_img.image = img
             lbl_img.pack(expand=True)
@@ -318,7 +310,7 @@ class FolderWizardApp:
     """ Actualiza los campos de estadísticas mostrando la cantidad de archivos y carpetas en la carpeta seleccionada """
     def actualizar_estadisticas(self):
         if not self.folder_path:
-            self._set_stat_fields("-", "-", "-", "-")
+            self._set_stat_fields("-", "-")
             return
         try:
             # Contar archivos ignorando desktop.ini y opcionalmente otros .ini para visualización
@@ -326,64 +318,25 @@ class FolderWizardApp:
                                 if f.is_file() and f.name.lower() != "desktop.ini" and f.suffix.lower() != ".ini"])
             # Contar carpetas normalmente
             num_carpetas = len([f for f in Path(self.folder_path).iterdir() if f.is_dir()])
-
-            #Tamaño del archivo en la unidad que precise
-            total_size = 0
-            for f in Path(self.folder_path).glob("**/*"):
-                if f.is_file():
-                    try:
-                        total_size += os.path.getsize(f)
-                    except:
-                        pass
-            size_formatted = self._format_size(total_size)
-
-            #Cantidad de subcarpetas en el archivo, por ejemplo, Carpeta1/Carpeta2/Carpeta3, nSubcarpetas=2
-            profundidad = 0
-            for f in Path(self.folder_path).glob("**/*"):
-                if f.is_dir():
-                    nivel = len(f.relative_to(Path(self.folder_path)).parts)
-                    if nivel > profundidad:
-                        profundidad = nivel
-
-            self._set_stat_fields(num_archivos, num_carpetas, size_formatted, profundidad)
-
+            self._set_stat_fields(num_archivos, num_carpetas)
         except Exception:
-            self._set_stat_fields("ERR", "ERR", "ERR", "ERR")
+            self._set_stat_fields("ERR", "ERR")
 
     """ Actualiza los campos de texto de estadísticas con la cantidad de archivos y carpetas """
-    def _set_stat_fields(self, archivos, carpetas, peso, niveles):
+    def _set_stat_fields(self, archivos, carpetas):
         self.txt_archivos.config(state="normal")
         self.txt_carpetas.config(state="normal")
-        self.txt_peso.config(state="normal")
-        self.txt_niveles.config(state="normal")
         self.txt_archivos.delete(0, tk.END)
         self.txt_archivos.insert(0, str(archivos))
         self.txt_carpetas.delete(0, tk.END)
         self.txt_carpetas.insert(0, str(carpetas))
-        self.txt_peso.delete(0, tk.END)
-        self.txt_peso.insert(0, str(peso))
-        self.txt_niveles.delete(0, tk.END)
-        self.txt_niveles.insert(0, str(niveles))
         self.txt_archivos.config(state="disabled")
         self.txt_carpetas.config(state="disabled")
-        self.txt_peso.config(state="disabled")
-        self.txt_niveles.config(state="disabled")
 
     """ Cambia a la pantalla de acciones y actualiza las estadísticas """
     def ir_a_acciones(self):
         self.enseniar_frame(self.frame_actions)
         self.actualizar_estadisticas()
-
-    """Da formato al peso del archivo"""
-    def _format_size(self, size_bytes):
-        if size_bytes == 0:
-            return "0 KB"
-        units = ["B", "KB", "MB", "GB", "TB"]
-        i = 0
-        while size_bytes >= 1024 and i < len(units) - 1:
-            size_bytes /= 1024
-            i += 1
-        return f"{size_bytes:.2f} {units[i]}"
 
 # ------------------ EJECUCIÓN ------------------
 if __name__ == "__main__":

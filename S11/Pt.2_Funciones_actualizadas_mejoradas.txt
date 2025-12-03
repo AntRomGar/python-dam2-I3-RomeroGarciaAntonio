@@ -1,0 +1,106 @@
+================
+Actualizaciones=
+================
+
+1.-Interfaz gráfica modular y moderna
+
+*Se reemplazó la ventana única con botones simples por una estructura de múltiples frames: frame_welcome, frame_select, frame_actions.
+
+*Se añadieron paneles separados para acciones, estadísticas y navegación, permitiendo una experiencia más organizada.
+
+*Se implementó una barra superior (_crear_top_bar) con título y un panel lateral con logo (_crear_panel_con_logo), mejorando la apariencia visual.
+
+
+2.-Navegación mejorada
+
+*Introducción de botones de navegación “Volver”, “Siguiente” y “Salir” mediante _crear_botones_navegacion.
+
+*Uso de enseniar_frame para mostrar dinámicamente los frames deseados en lugar de abrir ventanas nuevas o mensajes.
+
+
+3.-Funciones de estadísticas
+
+*Se añadieron campos de texto para mostrar número de archivos y carpetas en tiempo real (txt_archivos, txt_carpetas).
+
+*Botón para actualizar estadísticas (actualizar_estadisticas) y método _set_stat_fields para actualizar los valores de forma segura.
+
+
+4.-Manejo de archivos más robusto
+
+*organize_folder ahora registra los movimientos de archivos en ultima_accion para poder deshacerlos fácilmente.
+
+*Se implementó el método deshacer_accion y su integración con la GUI para revertir la última acción de organización.
+
+*Mejor control de conflictos de nombres al mover archivos.
+
+
+5.-Gestión de archivos recientes
+
+*Se agregó funcionalidad para listar archivos modificados en los últimos 7 días (archivos_recientes) con interfaz de mensaje.
+
+
+6.-Compresión mejorada
+
+*La compresión de carpetas se amplió para comprimir carpetas completas en formato ZIP (comprimir_carpeta_entera) en lugar de solo archivos individuales con gzip.
+
+*Integración con la GUI para mostrar la ruta del ZIP generado y manejo de errores.
+
+
+7.-Robustez y validaciones
+
+*Advertencias y chequeos en todos los métodos si no se ha seleccionado carpeta.
+
+*Manejo de excepciones más consistente (try/except) para operaciones críticas.
+
+
+8.-Estética y usabilidad
+
+*Se añadieron colores, tamaños de fuente y estilos consistentes en labels y botones.
+
+*Mejora de la disposición y espaciado de los elementos de la interfaz.
+
+*Uso de íconos y textos más descriptivos en los botones y mensajes.
+
+
+9.-Código más modular y escalable
+
+*Separación de métodos auxiliares, acciones y GUI en funciones dedicadas.
+
+*Posibilidad de agregar nuevas funcionalidades sin alterar la 
+ estructura existente de frames.
+
+
+==================================================
+------------
+Funciones (Globales)
+------------
+> mover_archivo
+> obtener_archivos_recientes
+> organize_folder
+> deshacer_accion
+
+
+------------
+Métodos en la clase "FolderWizardApp"
+------------
+
+> __init__
+> enseniar_frame
+> crear_bienvenida_frame
+> create_select_frame
+> create_actions_frame
+> _crear_top_bar
+> _crear_panel_con_logo
+> _crear_botones_navegacion
+> seleccionar_carpeta
+> organizar_archivos
+> comprimir_carpeta_entera
+> comprimir_carpeta
+> archivos_recientes
+> deshacer
+> actualizar_estadisticas
+> _set_stat_fields
+> ir_a_acciones
+> _format_size
+
+

@@ -22,6 +22,9 @@ Mejora la navegación sin tener que salir de la app.
 Permite seleccionar varios archivos y comprimirlos a la vez en un .zip o .gz.
 Función práctica para backup o envío de varios archivos.
 
+========================================================================================
+========================================================================================
+
 Reparto de trabajo 
 
 Óscar Cruz : Una mejora funcional (Deshacer última acción)
