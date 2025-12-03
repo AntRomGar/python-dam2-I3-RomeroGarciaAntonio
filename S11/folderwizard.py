@@ -58,7 +58,7 @@ def obtener_archivos_recientes(folder_path, dias=7):
     return [f.name for f in folder.iterdir() if f.is_file() and datetime.fromtimestamp(f.stat().st_mtime) > limite_fecha]
 
 """ Organiza los archivos de una carpeta en subcarpetas según su tipo y registra los movimientos para deshacerlos """
-def organize_folder(folder_path):
+def organizar_carpeta(folder_path):
     global ultima_accion
     folder = Path(folder_path)
     if not folder.exists():
@@ -269,7 +269,7 @@ class FolderWizardApp:
             messagebox.showwarning("Advertencia", "Primero selecciona una carpeta.")
             return
         try:
-            resultado = organize_folder(self.folder_path)
+            resultado = organizar_carpeta(self.folder_path)
             messagebox.showinfo("Éxito", resultado)
             self.actualizar_estadisticas()
         except Exception as e:
