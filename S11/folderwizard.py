@@ -116,7 +116,7 @@ class FolderWizardApp:
     def __init__(self, root):
         self.root = root
         self.root.title("FolderWizard - Organizador de Archivos")
-        self.root.geometry("600x400")
+        self.root.geometry("600x450")
         self.root.resizable(False, False)
         self.root.configure(bg="#ECE9D8")
         self.folder_path = None
