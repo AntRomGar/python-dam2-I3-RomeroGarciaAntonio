@@ -25,6 +25,8 @@ nombre_ventana = "FolderWizard"
 carpeta_por_defecto = None
 titulo_ventanas = "Asistente de Organización de Archivos"
 imagen_banner = "logo.png"
+nombre_dialogo_1 = "Bienvenido a FolderWizard"
+descripcion_dialogo_1 = "Este asistente organiza archivos en carpetas según su tipo.\nSelecciona una carpeta y presiona 'Organizar Archivos'."
 
 
 
@@ -150,10 +152,10 @@ class FolderWizardApp:
         content_frame = tk.Frame(frame, bg="#ECE9D8")
         content_frame.pack(fill="both", expand=True, padx=10, pady=10)
         self._crear_panel_con_logo(content_frame)
-        tk.Label(content_frame, text="Bienvenido a FolderWizard",
+        tk.Label(content_frame, text=f"{nombre_dialogo_1}",
                  font=("Tahoma", 14, "bold"), bg="#ECE9D8").pack(anchor="nw")
         tk.Label(content_frame,
-                 text="Este asistente organiza archivos en carpetas según su tipo.\nSelecciona una carpeta y presiona 'Organizar Archivos'.",
+                 text=f"{descripcion_dialogo_1}",
                  justify="left", font=("Tahoma", 10), bg="#ECE9D8", wraplength=380).pack(anchor="nw", pady=10)
         self._crear_botones_navegacion(frame, siguiente=lambda: self.enseniar_frame(self.frame_select))
 
