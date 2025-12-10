@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import font as tkfont
 from tkinter import filedialog, messagebox
 import shutil
 from pathlib import Path
@@ -142,6 +143,15 @@ class FolderWizardApp:
         self.frame_actions = tk.Frame(root, bg="#ECE9D8")
         for frame in (self.frame_welcome, self.frame_select, self.frame_actions):
             frame.place(x=0, y=0, relwidth=1, relheight=1)
+        
+        # Intento de configurar fuente global Roboto (debe estar instalada en el sistema)
+        try:
+            default_font = tkfont.nametofont("TkDefaultFont")
+            default_font.config(family="Roboto", size=10)
+            self.root.option_add("*Font", "Roboto 10")
+            print("Fuente Roboto configurada globalmente.")
+        except Exception as e:
+            print(f"No se pudo configurar la fuente Roboto: {e}")
 
         self.crear_bienvenida_frame()
         self.create_select_frame()
@@ -426,5 +436,9 @@ class FolderWizardApp:
 
 if __name__ == "__main__":
     root = tk.Tk()
+    # ===== Configuración de fuente Roboto =======
+    font_path = os.path.join(os.path.dirname(__file__), "fuentes", "Roboto-Regular.ttf")
+    print(f"Ruta fuente Roboto: {font_path}")
+    # ============================================
     app = FolderWizardApp(root)
     root.mainloop()
